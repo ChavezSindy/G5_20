@@ -20,34 +20,38 @@
                return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
            }
        
-           public function insert_materiales($descripcion, $unidad, $precio,$aplica_isv, $porcentaje_isv, $estado){
+           public function insert_materiales($descripcion, $unidad,$costo, $precio,$aplica_isv, $porcentaje_isv, $estado,$id_socio){
                $conectar=parent::conexion();
                parent::set_names();
-               $sql="INSERT INTO ma_materiales(id,descripcion,unidad,precio,aplica_isv,porcentaje_isv,estado)
-               VALUES (NULL,?,?,?,?,?,?);";
+               $sql="INSERT INTO ma_materiales(descripcion,unidad,costo,precio,aplica_isv,porcentaje_isv,estado,id_socio)
+               VALUES (?,?,?,?,?,?,?,?);";
                $sql=$conectar->prepare($sql);
                $sql->bindValue(1,$descripcion);
                $sql->bindValue(2,$unidad);
-               $sql->bindValue(3,$precio);
-               $sql->bindValue(4,$aplica_isv);
-               $sql->bindValue(5,$porcentaje_isv);
-               $sql->bindValue(6,$estado);
+               $sql->bindValue(3,$costo);
+               $sql->bindValue(4,$precio);
+               $sql->bindValue(5,$aplica_isv);
+               $sql->bindValue(6,$porcentaje_isv);
+               $sql->bindValue(7,$estado);
+               $sql->bindValue(8,$id_socio);
                $sql->execute();
                return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
            }
 
-           public function update_materiales($id, $descripcion, $unidad, $precio, $aplica_isv, $porcentaje_isv, $estado){
+           public function update_materiales($id, $descripcion, $unidad,$costo, $precio,$aplica_isv, $porcentaje_isv, $estado,$id_socio){
                 $conectar= parent::conexion();
                 parent::set_names();
-                $sql="UPDATE ma_materiales SET descripcion=? , unidad=? ,precio=? , aplica_isv=? , porcentaje_isv=? , estado=?  WHERE ID=?";
+                $sql="UPDATE ma_materiales SET descripcion=? , unidad=? ,costo=?, precio=? , aplica_isv=? , porcentaje_isv=? , estado=?, id_socio=?  WHERE ID=?";
                 $sql=$conectar->prepare($sql);
                 $sql->bindValue(1, $descripcion);
                 $sql->bindValue(2, $unidad);
-                $sql->bindValue(3, $precio);
-                $sql->bindValue(4, $aplica_isv);
-                $sql->bindValue(5, $porcentaje_isv);
-                $sql->bindValue(6, $estado);
-                $sql->bindValue(7, $id);
+                $sql->bindValue(3, $costo);
+                $sql->bindValue(4, $precio);
+                $sql->bindValue(5, $aplica_isv);
+                $sql->bindValue(6, $porcentaje_isv);
+                $sql->bindValue(7, $estado);
+                $sql->bindValue(8, $id_socio);
+                $sql->bindValue(9, $id);
                 $sql->execute();
                 return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
             }
@@ -56,7 +60,7 @@
             public function delete_Material($id){
                 $conectar= parent::conexion();
                 parent::set_names();
-                $sql="DELETE FROM ma_materiales  WHERE ID=?";
+                $sql="DELETE FROM ma_materiales  WHERE ID = ?";
                 $sql=$conectar->prepare($sql);
                 $sql->bindValue(1, $id);
                 $sql->execute();
